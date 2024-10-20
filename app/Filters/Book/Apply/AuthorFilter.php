@@ -13,6 +13,6 @@ class AuthorFilter
      */
     public function filter(Builder $builder, $value)
     {
-        return $builder->where('author', $value);
+        return $builder->where('author', 'like', "%{$value}%");
     }
 }
