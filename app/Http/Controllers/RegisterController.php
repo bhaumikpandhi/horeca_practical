@@ -24,7 +24,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'user' => $user
-            ]);
+            ], 201);
 
         } catch (\Exception $e) {
 
