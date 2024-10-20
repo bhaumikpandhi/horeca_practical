@@ -17,7 +17,7 @@ return new class extends Migration
             // This author can be reference from users table but not keeping it from users table as of now
             // because there are chances that some book's author is not available in our users table.
             $table->string('author');
-            $table->dateTime('published_date');
+            $table->date('published_date');
             $table->unsignedBigInteger('genre_id');
             $table->timestamps();
             $table->softDeletes();

@@ -15,7 +15,7 @@ class BookRepository
         return Book::query()
             ->with('genre')
             ->filter($request)
-            ->paginate(1);
+            ->paginate(10);
     }
 
     /**

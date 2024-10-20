@@ -12,10 +12,12 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin',
-            'role' => 'admin',
-            'email' => 'admin@admin.com',
-        ]);
+        if (!User::query()->where('email', 'admin@admin.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Admin',
+                'role' => 'admin',
+                'email' => 'admin@admin.com',
+            ]);
+        }
     }
 }
