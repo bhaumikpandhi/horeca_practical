@@ -2,17 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use App\Http\Requests\Book\StoreRequest;
+use App\Http\Requests\Book\UpdateRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Book\Book;
+use App\Repository\BookRepository;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
+    protected BookRepository $repository;
+
+    /**
+     * @param BookRepository $repository
+     */
+    public function __construct(BookRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json('ok');
+        $books = $this->repository->index($request);
+
+        return BookResource::collection($books)
+            ->additional(['message' => 'Books fetched successfully']);
     }
 
     /**
@@ -26,9 +44,14 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $book = $this->repository->store($request->all());
+
+        return response()->json([
+            'data' => $book,
+            'message' => 'Book created successfully'
+        ], 201);
     }
 
     /**
@@ -36,7 +59,12 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        $book = $this->repository->show($book);
+
+        return response()->json([
+            'data' => $book,
+            'message' => 'Book fetched successfully'
+        ]);
     }
 
     /**
@@ -50,9 +78,14 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(UpdateRequest $request, Book $book)
     {
-        //
+        $book = $this->repository->update($book, $request->all());
+
+        return response()->json([
+            'data' => $book,
+            'message' => 'Book updated successfully'
+        ]);
     }
 
     /**
@@ -60,6 +93,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $this->repository->destroy($book);
+
+        return response()->json([
+            'message' => 'Book deleted successfully'
+        ]);
     }
 }
