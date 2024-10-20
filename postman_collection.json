@@ -21,7 +21,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api_url}}/books",
+							"raw": "{{api_url}}/books?filter[author]=okokok&filter[genre]=Mystery",
 							"host": [
 								"{{api_url}}"
 							],
@@ -32,7 +32,12 @@
 								{
 									"key": "filter[author]",
 									"value": "okokok",
-									"disabled": true
+									"description": "optional"
+								},
+								{
+									"key": "filter[genre]",
+									"value": "Mystery",
+									"description": "optional"
 								}
 							]
 						}
